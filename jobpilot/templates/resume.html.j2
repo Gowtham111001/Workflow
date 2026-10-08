@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ basics.name }} - Resume</title>
+<style>
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.5pt; line-height: 1.35; color: #111; margin: 0; }
+  h1 { font-size: 20pt; margin: 0; letter-spacing: 0.5px; }
+  .headline { font-size: 11pt; color: #333; margin-top: 2px; }
+  .contact { font-size: 9.5pt; color: #333; margin: 4px 0 8px; }
+  .contact span + span::before { content: " | "; color: #888; }
+  h2 { font-size: 10.5pt; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #999;
+       margin: 12px 0 4px; padding-bottom: 1px; }
+  .entry { margin-bottom: 6px; page-break-inside: avoid; }
+  .row { display: flex; justify-content: space-between; }
+  .org { font-weight: bold; }
+  .muted { color: #444; }
+  ul { margin: 2px 0 0 0; padding-left: 16px; }
+  li { margin: 1px 0; }
+  p { margin: 2px 0; }
+</style>
+</head>
+<body>
+  <h1>{{ basics.name }}</h1>
+  {% if headline %}<div class="headline">{{ headline }}</div>{% endif %}
+  <div class="contact">
+    {% if basics.location %}<span>{{ basics.location }}</span>{% endif %}
+    {% if basics.email %}<span>{{ basics.email }}</span>{% endif %}
+    {% if basics.phone %}<span>{{ basics.phone }}</span>{% endif %}
+    {% for link in basics.links %}<span>{{ link.url }}</span>{% endfor %}
+  </div>
+
+  {% if summary %}
+  <h2>Summary</h2>
+  <p>{{ summary }}</p>
+  {% endif %}
+
+  {% if experience %}
+  <h2>Experience</h2>
+  {% for e in experience %}
+  <div class="entry">
+    <div class="row"><span><span class="org">{{ e.title }}</span>, {{ e.company }}</span>
+      <span class="muted">{{ e.start or "" }}{% if e.end %} – {{ e.end }}{% endif %}</span></div>
+    {% if e.location %}<div class="muted">{{ e.location }}</div>{% endif %}
+    <ul>{% for b in e.bullets %}<li>{{ b }}</li>{% endfor %}</ul>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if projects %}
+  <h2>Projects</h2>
+  {% for p in projects %}
+  <div class="entry">
+    <div class="row"><span class="org">{{ p.name }}</span>{% if p.link %}<span class="muted">{{ p.link }}</span>{% endif %}</div>
+    <ul>{% for b in p.bullets %}<li>{{ b }}</li>{% endfor %}</ul>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if skills %}
+  <h2>Skills</h2>
+  {% for g in skills %}<p><span class="org">{{ g.category }}:</span> {{ g.items | join(", ") }}</p>{% endfor %}
+  {% endif %}
+
+  {% if education %}
+  <h2>Education</h2>
+  {% for ed in education %}
+  <div class="entry">
+    <div class="row"><span><span class="org">{{ ed.institution }}</span>{% if ed.degree %}, {{ ed.degree }}{% endif %}{% if ed.field %} in {{ ed.field }}{% endif %}</span>
+      <span class="muted">{{ ed.start or "" }}{% if ed.end %} – {{ ed.end }}{% endif %}</span></div>
+    {% if ed.details %}<ul>{% for d in ed.details %}<li>{{ d }}</li>{% endfor %}</ul>{% endif %}
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  {% if certifications %}
+  <h2>Certifications</h2>
+  <ul>{% for c in certifications %}<li>{{ c }}</li>{% endfor %}</ul>
+  {% endif %}
+</body>
+</html>

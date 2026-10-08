@@ -1,0 +1,7 @@
+# Personal data never leaves your machine: resume, profile, tracker DB, generated files.
+data/
+
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
