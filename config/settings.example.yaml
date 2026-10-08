@@ -1,0 +1,39 @@
+# jobpilot settings. `jobpilot init` copies this to data/settings.yaml (git-ignored).
+
+llm:
+  model: claude-opus-5-5
+  effort_analyze: low     # scoring every posting: keep it cheap
+  effort_tailor: high     # the resume/cover letter: where quality matters
+  effort_answer: medium   # drafting free-text application answers
+
+search:
+  title_keywords: ["software engineer", "backend", "full stack", "platform engineer"]
+  exclude_title_keywords: ["principal", "director", "manager", "intern", "staff"]
+  locations: ["New York", "San Francisco", "Bengaluru"]   # empty list = anywhere
+  remote_ok: true
+  max_age_days: 30
+  min_score: 65           # only jobs scoring >= this get tailored
+
+# Company job boards to watch. The slug is the last part of the company's careers URL:
+#   job-boards.greenhouse.io/<slug>   jobs.lever.co/<slug>   jobs.ashbyhq.com/<slug>
+# Anything else: `jobpilot add <url>`.
+sources:
+  greenhouse: ["anthropic", "stripe", "databricks"]
+  lever: ["palantir"]
+  ashby: ["ramp", "notion"]
+
+tailor:
+  max_bullets_per_role: 5
+  max_projects: 2
+  paper: Letter           # or A4
+
+apply:
+  # review   - stop after tailoring; nothing is filled for you
+  # assisted - fill the form in a visible browser; YOU click submit (recommended)
+  # auto     - submit when every field was answered from your profile/answer bank,
+  #            nothing was AI-drafted and there is no CAPTCHA; else falls back to assisted
+  mode: assisted
+  require_review: true    # false = tailored jobs that pass the fact check are auto-approved
+  daily_limit: 15
+  per_company_limit: 3
+  headless: false
